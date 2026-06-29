@@ -1,9 +1,14 @@
+import { Education } from 'src/profile/educations/entities/education.entity';
+import { Experience } from 'src/profile/experiences/entities/experience.entity';
+import { UserTechnology } from 'src/profile/user-technologies/entities/user-technology.entity';
+import { UserTool } from 'src/profile/user-tools/entities/user-tool.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 export enum UserType {
@@ -44,4 +49,16 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Education, (education) => education.user)
+  educations: Education[];
+
+  @OneToMany(() => Experience, (experience) => experience.user)
+  experiences: Experience[];
+
+  @OneToMany(() => UserTechnology, (userTechnology) => userTechnology.user)
+  technologies: UserTechnology[];
+
+  @OneToMany(() => UserTool, (userTool) => userTool.user)
+  tools: UserTool[];
 }

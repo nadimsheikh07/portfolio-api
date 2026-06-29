@@ -1,42 +1,43 @@
 import { User } from 'src/auth/users/entities/user.entity';
+import { Tool } from 'src/catalog/tools/entities/tool.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('educations')
-export class Education {
+@Entity('user_tools')
+export class UserTool {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   user_id: number;
 
-  @ManyToOne(() => User, (user) => user.educations, {
+  @Column()
+  tool_id: number;
+
+  @ManyToOne(() => User, (user) => user.tools, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ length: 255 })
-  name: string;
+  @ManyToOne(() => Tool, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'tool_id' })
+  tool: Tool;
 
-  @Column({ length: 255 })
-  university_name: string;
-
-  @Column({ type: 'int' })
-  passing_year: number;
+  @Column({ length: 100, nullable: true })
+  version: string;
 
   @Column({ type: 'text', nullable: true })
   description: string;
-
-  @Column({ length: 50, nullable: true })
-  grade: string;
 
   @CreateDateColumn()
   created_at: Date;
