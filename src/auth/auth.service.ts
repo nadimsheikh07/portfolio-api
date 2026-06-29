@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UsersService } from '../users/users.service';
 import { SignupDto } from './dto/signup.dto';
 import { SigninDto } from './dto/signin.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthUser } from './types/auth-user.type';
-
+import { UsersService } from './users/users.service';
+import { User } from './users/entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
@@ -61,7 +61,7 @@ export class AuthService {
     return this.usersService.updateProfile(user.sub, update);
   }
 
-  private authResponse(user: Awaited<ReturnType<UsersService['findProfile']>>) {
+  private authResponse(user: Omit<User, 'password'>) {
     const payload: AuthUser = {
       sub: user.id,
       email: user.email,

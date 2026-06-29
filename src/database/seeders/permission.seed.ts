@@ -1,4 +1,4 @@
-import { Permission } from 'src/permissions/entities/permission.entity';
+import { Permission } from 'src/auth/permissions/entities/permission.entity';
 import { DataSource } from 'typeorm';
 
 export class PermissionSeeder {

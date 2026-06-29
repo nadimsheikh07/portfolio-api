@@ -9,7 +9,7 @@ export class SigninDto {
     required: true,
   })
   @IsEmail()
-  email?: string;
+  email: string;
 
   @ApiProperty({
     description: 'Password of the user account (minimum 6 characters)',
@@ -20,5 +20,5 @@ export class SigninDto {
   })
   @IsString()
   @MinLength(6)
-  password?: string;
+  password: string;
 }

@@ -1,5 +1,5 @@
-import { Permission } from 'src/permissions/entities/permission.entity';
-import { Role } from 'src/roles/entities/role.entity';
+import { Permission } from 'src/auth/permissions/entities/permission.entity';
+import { Role } from 'src/auth/roles/entities/role.entity';
 import { DataSource } from 'typeorm';
 
 export class RoleSeeder {

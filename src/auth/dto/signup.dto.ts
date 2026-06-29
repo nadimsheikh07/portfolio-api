@@ -8,8 +8,9 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { UserType } from '../../users/entities/user.entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserType } from '../users/entities/user.entity';
+import { Column } from 'typeorm';
 
 export class SignupDto {
   @ApiProperty({
@@ -19,7 +20,7 @@ export class SignupDto {
   })
   @IsString()
   @IsNotEmpty()
-  name?: string;
+  name: string;
 
   @ApiProperty({
     description: 'Email address of the user',
@@ -27,7 +28,8 @@ export class SignupDto {
     format: 'email',
   })
   @IsEmail()
-  email?: string;
+  @Column({ select: false })
+  email: string;
 
   @ApiProperty({
     description: 'Mobile number of the user (10-15 digits)',
@@ -37,7 +39,7 @@ export class SignupDto {
   })
   @IsString()
   @Length(10, 15)
-  mobile?: string;
+  mobile: string;
 
   @ApiProperty({
     description: 'Password for the user account (minimum 6 characters)',
@@ -47,7 +49,8 @@ export class SignupDto {
   })
   @IsString()
   @MinLength(6)
-  password?: string;
+  @Column({ select: false })
+  password: string;
 
   @ApiProperty({
     description: 'Type of user account',
@@ -55,36 +58,36 @@ export class SignupDto {
     example: UserType.CUSTOMER,
     enumName: 'UserType',
   })
-  @IsIn([UserType.CUSTOMER, UserType.DRIVER])
-  userType?: UserType.CUSTOMER | UserType.DRIVER;
+  @IsIn([UserType.CUSTOMER, UserType.ADMIN])
+  userType: UserType.CUSTOMER | UserType.ADMIN;
 
   @ApiPropertyOptional({
-    description: 'Name of the cab (required for DRIVER user type)',
+    description: 'Name of the cab (required for ADMIN user type)',
     example: 'Uber X',
     minLength: 1,
   })
-  @ValidateIf((dto: SignupDto) => dto.userType === UserType.DRIVER)
+  @ValidateIf((dto: SignupDto) => dto.userType === UserType.ADMIN)
   @IsString()
   @IsNotEmpty()
   cabName?: string;
 
   @ApiPropertyOptional({
-    description: 'Model of the cab (required for DRIVER user type)',
+    description: 'Model of the cab (required for ADMIN user type)',
     example: 'Toyota Camry 2024',
     minLength: 1,
   })
-  @ValidateIf((dto: SignupDto) => dto.userType === UserType.DRIVER)
+  @ValidateIf((dto: SignupDto) => dto.userType === UserType.ADMIN)
   @IsString()
   @IsNotEmpty()
   cabModel?: string;
 
   @ApiPropertyOptional({
     description:
-      'License plate number of the cab (required for DRIVER user type)',
+      'License plate number of the cab (required for ADMIN user type)',
     example: 'ABC-1234',
     minLength: 1,
   })
-  @ValidateIf((dto: SignupDto) => dto.userType === UserType.DRIVER)
+  @ValidateIf((dto: SignupDto) => dto.userType === UserType.ADMIN)
   @IsString()
   @IsNotEmpty()
   cabNumber?: string;
@@ -99,11 +102,11 @@ export class SignupDto {
   cabImage?: string;
 
   @ApiPropertyOptional({
-    description: 'Driving license number (required for DRIVER user type)',
+    description: 'Driving license number (required for ADMIN user type)',
     example: 'DL-1234567890',
     minLength: 1,
   })
-  @ValidateIf((dto: SignupDto) => dto.userType === UserType.DRIVER)
+  @ValidateIf((dto: SignupDto) => dto.userType === UserType.ADMIN)
   @IsString()
   @IsNotEmpty()
   drivingLicense?: string;
