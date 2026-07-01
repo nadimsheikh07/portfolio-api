@@ -1,6 +1,7 @@
 ## Make Migration
 ```bash
-npm run migration:generate -- src/database/migrations/InitialSchema```
+npm run migration:generate -- src/database/migrations/InitialSchema -d src/database/data-source.ts
+```
 
 ## Run Migration
 ```bash
